@@ -1,5 +1,4 @@
-// Rust Bytes Challenge Issue #133
-
+//#![feature(never_type)]
 // Problem:
 // Given a vector of integers `nums`, return all unique triplets [a, b, c]
 // such that a + b + c == 0. The solution must not contain duplicate triplets.
@@ -10,29 +9,28 @@
 // - -10^5 <= nums[i] <= 10^5
 // Aim for O(n^2) time after sorting.
 
+mod never;
+mod longest_unique_substring;
+
 fn three_sum(nums: Vec<i32>) -> Vec<Vec<i32>> {
-    let mut triplets: Vec<Vec<i32>> = vec![];
     let len = nums.len();
+    let mut triplets = vec![];
     for i1 in 0..len {
-        for i2 in (i1+1)..len {
-            for i3 in (i2+1)..len {
+        for i2 in (i1 + 1)..len {
+            for i3 in (i2 + 1)..len {
                 let mut triplet = vec![nums[i1], nums[i2], nums[i3]];
                 triplet.sort_unstable();
                 if triplet.iter().sum::<i32>() == 0 {
-                    let is_exist = triplets.iter().find(|t| {
+                    if triplets.iter().find(|t| {
                         triplet.eq(*t)
-                        //t[0] == triplet[0] && t[1] == triplet[1] && t[2] == triplet[2]
-                    }).is_some();
-                    if !is_exist {
+                    }).is_none() {
                         triplets.push(triplet);
                     }
-                }
 
+                }
             }
         }
-
     }
-
     triplets
 }
 
