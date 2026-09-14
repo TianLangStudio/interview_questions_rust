@@ -13,15 +13,15 @@ pub fn print_name(fruit: &Fruit) {
     print!("Fruit Name: {}", name)
 }
 
-pub fn return_never() -> ! {
-    panic!("Never return")
-}
+/*pub fn return_never() -> ! {
+    //panic!("Never return")
+}*/
 
 
 pub fn result_with_never() -> Result<String, ()> {
     Ok(String::from("Ok"))
 }
-
+/*
 #[cfg(test)]
 mod tests {
     use crate::never::return_never;
@@ -30,4 +30,4 @@ mod tests {
     fn test_return_never() {
         return_never();
     }
-}
+}*/

@@ -18,41 +18,38 @@
 //   - No unnecessary allocations of String
 //   - Correct lifetime (the returned &str lives as long as `s`)
 
+use std::collections::HashMap;
+
 fn longest_unique_substring(s: &str) -> &str {
-    let chars:Vec<(usize, char)> = s.char_indices().collect();
-    let len = chars.len();
-    if len < 2 {
-        return s;
-    }
+    let chars: Vec<(usize, char)> = s.char_indices().collect();
+    let chars_count = chars.len();
+
     let mut longest_start_idx = 0;
-    let mut longest_end_idx = 0;
-    let mut longest_len = 0;
-
-    // TODO: implementation here
-    for (i, (byte_idx, c)) in chars.iter().enumerate() {
-        let mut sub_string_chars:Vec<&char> = vec![];
-        sub_string_chars.push(&c);
-
-        for j in (i + 1) .. len {
-            let next_char = &chars[j];
-            println!("next_char {:?}", next_char);
-            if sub_string_chars.contains(&&next_char.1) {
+    let mut max_count = 0;
+    for i in 0..chars_count {
+        let mut seen_chars = HashMap::new();
+        seen_chars.insert(&chars[i].1, true);
+        for j in (i + 1)..chars_count {
+            if seen_chars.contains_key(&chars[j].1) {
                 break;
             }else {
-                sub_string_chars.push(&next_char.1);
+                seen_chars.insert(&chars[j].1, true);
             }
         }
-        if sub_string_chars.len() > longest_len {
+        if seen_chars.len() > max_count {
             longest_start_idx = chars[i].0;
-            longest_end_idx = if i + sub_string_chars.len() >= len {
-                s.len()
-            } else {
-                chars[i + sub_string_chars.len()].0
-            };
-            longest_len = sub_string_chars.len();
+            max_count = seen_chars.len();
         }
     }
-    &s[longest_start_idx.. longest_end_idx]
+
+    let longest_end_char_idx = longest_start_idx + max_count;
+    let longest_end_idx = if longest_end_char_idx >= chars_count {
+        s.len()
+    }else {
+        chars[longest_end_char_idx].0
+    };
+
+    &s[longest_start_idx..longest_end_idx]
 }
 
 #[cfg(test)]
