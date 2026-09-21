@@ -15,21 +15,10 @@ pub fn min_window(s: String, t: String) -> String {
         return String::new();
     }
 
-    let t_chars_count_map = t_chars
-        .iter()
-        .fold(HashMap::with_capacity(t_len), |mut acc, c| {
-            *acc.entry(c).or_insert(0) += 1;
-            acc
-        });
+    let t_chars_count_map = char_count(&t_chars);
     for win_size in t_len ..= s_len {
         for window in s_chars.windows(win_size) {
-            let s_window_char_count_map =
-                window
-                    .iter()
-                    .fold(HashMap::with_capacity(win_size), |mut acc, c| {
-                        *acc.entry(c).or_insert(0) += 1;
-                        acc
-                    });
+            let s_window_char_count_map = char_count(&s_chars);
             if t_chars_count_map
                 .iter()
                 .all(|(c, count)| s_window_char_count_map.get(c).unwrap_or(&0) >= count)
@@ -40,6 +29,15 @@ pub fn min_window(s: String, t: String) -> String {
     }
 
     String::new()
+}
+
+fn char_count(chars: &Vec<char>) -> HashMap<&char, i32> {
+    chars
+        .iter()
+        .fold(HashMap::with_capacity(chars.len()), |mut acc, c| {
+            *acc.entry(c).or_insert(0) += 1;
+            acc
+        })
 }
 
 #[cfg(test)]
