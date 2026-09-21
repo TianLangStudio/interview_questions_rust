@@ -1,5 +1,8 @@
 //  Rust Bytes Challenges Issue #136
-
+//今天在网上看到一个Rust练习题：
+//Given two strings s and t, return the minimum window substring of s such that
+// every character in t including duplicates is included in the window.
+//给定两个字符串s和t, 要求从s中返回一个子字符串，这个子字符串必须包含所有t字符中的字符（包括重复的字符）
 use std::collections::HashMap;
 
 pub fn min_window(s: String, t: String) -> String {
