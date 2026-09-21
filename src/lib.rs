@@ -9,8 +9,9 @@
 // - -10^5 <= nums[i] <= 10^5
 // Aim for O(n^2) time after sorting.
 
-mod never;
 mod longest_unique_substring;
+mod never;
+mod string_min_window;
 mod water_trapper;
 
 fn three_sum(nums: Vec<i32>) -> Vec<Vec<i32>> {
@@ -22,12 +23,9 @@ fn three_sum(nums: Vec<i32>) -> Vec<Vec<i32>> {
                 let mut triplet = vec![nums[i1], nums[i2], nums[i3]];
                 triplet.sort_unstable();
                 if triplet.iter().sum::<i32>() == 0 {
-                    if triplets.iter().find(|t| {
-                        triplet.eq(*t)
-                    }).is_none() {
+                    if triplets.iter().find(|t| triplet.eq(*t)).is_none() {
                         triplets.push(triplet);
                     }
-
                 }
             }
         }
@@ -84,11 +82,7 @@ mod tests {
     #[test]
     fn many_duplicates() {
         let res = three_sum(vec![-1, -1, -1, 0, 0, 0, 1, 1, 1, 2]);
-        let expected = vec![
-            vec![-1, -1, 2],
-            vec![-1, 0, 1],
-            vec![0, 0, 0],
-        ];
+        let expected = vec![vec![-1, -1, 2], vec![-1, 0, 1], vec![0, 0, 0]];
         assert_eq!(normalize(res), normalize(expected));
     }
 
@@ -115,11 +109,7 @@ mod tests {
         let res = three_sum(vec![-10, -5, -2, 0, 3, 7, 12]);
         let expected = vec![vec![-10, -2, 12], vec![-5, -2, 7], vec![-5, 0, 5]];
         // Correct:
-        let expected = vec![
-            vec![-10, -2, 12],
-            vec![-10, 3, 7],
-            vec![-5, -2, 7],
-        ];
+        let expected = vec![vec![-10, -2, 12], vec![-10, 3, 7], vec![-5, -2, 7]];
         // Precise:
         // -10 + -2 + 12 = 0
         // -5 + -2 + 7 = 0
@@ -143,10 +133,7 @@ mod tests {
     #[test]
     fn extreme_values() {
         let res = three_sum(vec![-100000, 50000, 50000, 0, 1, -1]);
-        let expected = vec![
-            vec![-100000, 50000, 50000],
-            vec![-1, 0, 1],
-        ];
+        let expected = vec![vec![-100000, 50000, 50000], vec![-1, 0, 1]];
         assert_eq!(normalize(res), normalize(expected));
     }
 }

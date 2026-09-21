@@ -8,26 +8,27 @@ pub fn trap(heights: Vec<i32>) -> i32 {
     let len = heights.len();
     if len <= 2 {
         return 0;
-    };
-    let mut pre_maxes = vec![];
-    let mut pre_max = 0;
+    }
+    let mut prev_maxes = vec![];
+    let mut prev_max = 0;
     let mut post_maxes = vec![];
     let mut post_max = 0;
-    for  h in heights.iter() {
-        pre_maxes.push(pre_max);
-        pre_max = pre_max.max(*h);
+    for h in heights.iter() {
+        prev_maxes.push(prev_max);
+        prev_max = prev_max.max(*h);
     }
-    for  h in heights.iter().rev() {
+    for h in heights.iter().rev() {
         post_maxes.insert(0, post_max);
         post_max = post_max.max(*h);
     }
+    println!("prev_maxes: {:?}", prev_maxes);
     let mut total = 0;
     for i in 0..len {
-        let pre_max = pre_maxes[i];
+        let height = heights[i];
+        let prev_max = prev_maxes[i];
         let post_max = post_maxes[i];
-        let h = heights[i];
-        if h < pre_max  && h < post_max {
-            total += post_max.min(pre_max) - h;
+        if height < prev_max && height < post_max {
+            total += prev_max.min(post_max) - height;
         }
     }
     total

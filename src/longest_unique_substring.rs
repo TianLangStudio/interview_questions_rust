@@ -32,7 +32,7 @@ fn longest_unique_substring(s: &str) -> &str {
         for j in (i + 1)..chars_count {
             if seen_chars.contains_key(&chars[j].1) {
                 break;
-            }else {
+            } else {
                 seen_chars.insert(&chars[j].1, true);
             }
         }
@@ -45,7 +45,7 @@ fn longest_unique_substring(s: &str) -> &str {
     let longest_end_char_idx = longest_start_idx + max_count;
     let longest_end_idx = if longest_end_char_idx >= chars_count {
         s.len()
-    }else {
+    } else {
         chars[longest_end_char_idx].0
     };
 
