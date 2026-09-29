@@ -13,6 +13,7 @@ mod longest_unique_substring;
 mod never;
 mod string_min_window;
 mod water_trapper;
+mod string_min_distance;
 
 fn three_sum(nums: Vec<i32>) -> Vec<Vec<i32>> {
     let len = nums.len();
