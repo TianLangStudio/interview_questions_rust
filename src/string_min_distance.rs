@@ -14,59 +14,55 @@ pub fn min_distance(word1: String, word2: String) -> i32 {
     if word1 == word2 {
         return 0;
     }
-
     if word1.starts_with(word2.as_str()) {
         return word1.len() as i32 - word2.len() as i32;
     }
-
     if word2.starts_with(word1.as_str()) {
         return word2.len() as i32 - word1.len() as i32;
     }
-
-    let word1_chars = word1.chars().collect::<Vec<char>>();
-    let word2_chars = word2.chars().collect::<Vec<char>>();
+    let word1_chars: Vec<char> = word1.chars().collect();
+    let word2_chars: Vec<char> = word2.chars().collect();
     let word1_len = word1_chars.len();
     let word2_len = word2_chars.len();
-    if word1_len == 0  {
-        return word2_len as i32;
-    }else if word2_len == 0 {
-        return word1_len as i32;
-    } else {
-        let len_min = word1_len.min(word2_len);
-        for i in 0..len_min {
-            if word1_chars[i] != word2_chars[i] {
-                let word1_insert = {
-                    let mut word1_chars = word1_chars.clone();
-                    word1_chars.insert(i, word2_chars[i]);
-                    word1_chars
-                };
-                let word1_replace = {
-                    let mut word1_chars = word1_chars.clone();
-                    word1_chars[i] = word2_chars[i];
-                    word1_chars
-                };
-                let word1_remove = {
-                    let mut word1_chars = word1_chars.clone();
-                    word1_chars.remove(i);
-                    word1_chars
-                };
-                let word1_insert_suffix = word1_insert[i .. ].iter().collect::<String>();
-                let word1_replace_suffix = word1_replace[i .. ].iter().collect::<String>();
-                let word1_remove_suffix = word1_remove[i .. ].iter().collect::<String>();
-                let word2_suffix = word2_chars[i .. ].iter().collect::<String>();
-                return 1 +
-                     min_distance(word1_insert_suffix, word2_suffix.clone())
-                    .min(min_distance(word1_replace_suffix, word2_suffix.clone()))
-                    .min(min_distance(word1_remove_suffix, word2_suffix.clone()));
-            }
+    let min_len = word1_len.min(word2_len);
+    for i in 0..min_len {
+        if word1_chars[i] != word2_chars[i] {
+            //insert
+            let mut word1_chars_insert = word1_chars.clone();
+            word1_chars_insert.insert(i, word2_chars[i]);
+            //replace
+            let mut word1_chars_replace = word1_chars.clone();
+            word1_chars_replace[i] = word2_chars[i];
+            //remove
+            let mut word1_chars_remove = word1_chars.clone();
+            word1_chars_remove.remove(i);
+            let word1_insert_suffix = word1_chars_insert[i ..].iter().collect::<String>();
+            let word1_replace_suffix = word1_chars_replace[i ..].iter().collect::<String>();
+            let word1_remove_suffix = word1_chars_remove[i ..].iter().collect::<String>();
+            let word2_suffix = word2_chars[i ..].iter().collect::<String>();
+            let step = 1 + min_distance(word1_insert_suffix, word2_suffix.clone())
+                .min(min_distance(word1_replace_suffix, word2_suffix.clone()))
+                .min(min_distance(word1_remove_suffix, word2_suffix.clone()));
+            return step;
         }
-
-
     }
-
 
     0
 }
+/*
+const fn min_distance(first: &[u8], second: &[u8]) -> usize {
+    match (first, second) {
+        ([], r) | (r, []) => r.len(),
+        ([a, ar @ ..], [b, br @ ..]) if *a == *b => min_distance(ar, br),
+        (a @ [_, ar @ ..], b @ [_, br @ ..]) => {
+            1 + min!(
+                min_distance(a, br),
+                min_distance(ar, b),
+                min_distance(ar, br)
+            )
+        }
+    }
+}*/
 
 #[cfg(test)]
 mod tests {
