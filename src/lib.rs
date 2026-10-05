@@ -9,11 +9,12 @@
 // - -10^5 <= nums[i] <= 10^5
 // Aim for O(n^2) time after sorting.
 
+mod first_missing_positive;
 mod longest_unique_substring;
 mod never;
+mod string_min_distance;
 mod string_min_window;
 mod water_trapper;
-mod string_min_distance;
 
 fn three_sum(nums: Vec<i32>) -> Vec<Vec<i32>> {
     let len = nums.len();

@@ -15,12 +15,13 @@ pub fn min_window(s: String, t: String) -> String {
         return String::new();
     }
     let t_char_count_map = char_count(&t_chars);
-    for size in t_len ..= s_len {
+    for size in t_len..=s_len {
         for window in s_chars.windows(size) {
             let s_char_count_map = char_count(window);
-            if t_char_count_map.iter().all(|(t_char, t_count)| {
-                s_char_count_map.get(t_char).unwrap_or(&0) >= &t_count
-            }) {
+            if t_char_count_map
+                .iter()
+                .all(|(t_char, t_count)| s_char_count_map.get(t_char).unwrap_or(&0) >= &t_count)
+            {
                 return window.iter().collect();
             }
         }

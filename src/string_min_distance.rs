@@ -36,10 +36,10 @@ pub fn min_distance(word1: String, word2: String) -> i32 {
             //remove
             let mut word1_chars_remove = word1_chars.clone();
             word1_chars_remove.remove(i);
-            let word1_insert_suffix = word1_chars_insert[i ..].iter().collect::<String>();
-            let word1_replace_suffix = word1_chars_replace[i ..].iter().collect::<String>();
-            let word1_remove_suffix = word1_chars_remove[i ..].iter().collect::<String>();
-            let word2_suffix = word2_chars[i ..].iter().collect::<String>();
+            let word1_insert_suffix = word1_chars_insert[i..].iter().collect::<String>();
+            let word1_replace_suffix = word1_chars_replace[i..].iter().collect::<String>();
+            let word1_remove_suffix = word1_chars_remove[i..].iter().collect::<String>();
+            let word2_suffix = word2_chars[i..].iter().collect::<String>();
             let step = 1 + min_distance(word1_insert_suffix, word2_suffix.clone())
                 .min(min_distance(word1_replace_suffix, word2_suffix.clone()))
                 .min(min_distance(word1_remove_suffix, word2_suffix.clone()));
