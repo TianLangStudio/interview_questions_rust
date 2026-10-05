@@ -9,22 +9,22 @@
 pub fn first_missing_positive(nums: Vec<i32>) -> i32 {
     // TODO: implement
     if nums.is_empty() {
-        return 0;
-    }
-    let mut positive_nums: Vec<&i32> = nums.iter().filter(|&n| *n > 0).collect();
-    positive_nums.sort();
-    if positive_nums.is_empty() || positive_nums[0] > &1 {
         return 1;
     }
-    let len = positive_nums.len();
+    let mut positives = nums.iter().filter(|&n| *n > 0).collect::<Vec<&i32>>();
+    positives.sort();
+    if positives.is_empty()  || positives[0] > &1{
+        return 1;
+    }
+    let len = positives.len();
     for i in 1..len {
-        let prev = positive_nums[i - 1];
-        let curr = positive_nums[i];
-        if curr - prev > 1 {
-            return prev + 1;
+        let prev = positives[i-1];
+        let cur = positives[i];
+        if cur - prev > 1 {
+           return prev + 1;
         }
     }
-    **positive_nums.last().unwrap() + 1
+    **positives.last().unwrap() + 1
 }
 
 #[cfg(test)]
